@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  production_db:
+    image: postgres
+    container_name: production_db
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
+      POSTGRES_DB: face-encoding
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  integration_tests_db:
+    image: postgres
+    container_name: integration_tests_db
+    environment:
+      POSTGRES_PASSWORD: integration-tests
+      POSTGRES_DB: face-encoding-it
+    ports:
+      - "5433:5432"
+
+  fastapi:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - production_db
+    environment:
+      POSTGRES_HOST: production_db
+      POSTGRES_DB_NAME: face-encoding
+      POSTGRES_ROOT_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
+      PYTHONUNBUFFERED: 1
+      POSTGRES_PORT: 5432
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge

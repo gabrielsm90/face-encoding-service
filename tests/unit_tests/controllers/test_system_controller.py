@@ -1,15 +1,3 @@
-import pytest
-
-from fastapi.testclient import TestClient
-
-from src.app import app
-
-
-@pytest.fixture
-def client():
-    return TestClient(app)
-
-
 def test_root_endpoint_returns_200_status_code_and_welcome_message(client):
     response = client.get("/")
 
