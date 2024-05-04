@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "face-encoding-service"
+version = "0.1.0"
+description = "A FastAPI application for managing face encoding through sessions."
+authors = ["Gabriel da Silva Menezes <gabrielsm90@gmail.com>"]
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.2.0"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.0.0"
+black = "^24.4.2"
+mypy = "^1.10.0"
+pre-commit = "^3.7.0"
+
+[tool.black]
+line-length = 120
