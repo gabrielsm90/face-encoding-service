@@ -31,7 +31,6 @@ services:
       POSTGRES_HOST: production_db
       POSTGRES_DB_NAME: face-encoding
       POSTGRES_ROOT_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
-      PYTHONUNBUFFERED: 1
       POSTGRES_PORT: 5432
     networks:
       - backend

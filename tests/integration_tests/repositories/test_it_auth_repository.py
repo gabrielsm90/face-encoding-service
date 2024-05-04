@@ -4,8 +4,8 @@ from string import ascii_letters
 import pytest
 from src.repositories.auth_repository import AuthRepository
 from src.schemas.user import UserCreate
-from src.db import engine, SessionLocal
-from src.models import Base, User
+from src.db import engine, SessionLocal, Base
+from src.models.user import User
 
 
 @pytest.fixture(scope="module")

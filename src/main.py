@@ -1,8 +1,7 @@
 import uvicorn
 
 from src.app import app
-from src.models import Base
-from src.db import engine
+from src.db import engine, Base
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ from typing import Any
 
 from src.schemas.user import UserCreate
 from src.db import SessionLocal
-from src.models import User
+from src.models.user import User
 
 
 class AuthRepository:

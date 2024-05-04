@@ -4,7 +4,7 @@ import jwt
 import pytest
 
 from src.exceptions import UserAlreadyExists
-from src.models import User
+from src.models.user import User
 from src.schemas.user import UserCreate
 from src.services.auth_service import (
     register_user,
