@@ -20,18 +20,20 @@ services:
       POSTGRES_DB: face-encoding-it
     ports:
       - "5433:5432"
+    networks:
+      - backend
 
-  fastapi:
+  face-encoding-backend:
     build: .
     ports:
       - "8000:8000"
     depends_on:
       - production_db
     environment:
-      POSTGRES_HOST: production_db
-      POSTGRES_DB_NAME: face-encoding
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_DB_NAME: ${POSTGRES_DB_NAME}
       POSTGRES_ROOT_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
-      POSTGRES_PORT: 5432
+      POSTGRES_PORT: ${POSTGRES_PORT}
     networks:
       - backend
 

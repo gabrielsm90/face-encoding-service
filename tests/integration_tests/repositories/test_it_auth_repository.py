@@ -1,4 +1,4 @@
-import random
+from random import choice
 from string import ascii_letters
 
 import pytest
@@ -20,7 +20,7 @@ def test_db():
 
 @pytest.fixture
 def username():
-    return "".join(random.choice(ascii_letters) for _ in range(10))
+    return "".join(choice(ascii_letters) for _ in range(10))
 
 
 def test_create_new_user(test_db, username):

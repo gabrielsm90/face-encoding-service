@@ -3,7 +3,7 @@ import jwt
 from datetime import timedelta, datetime
 from typing import Optional, Any
 
-from jwt import InvalidSignatureError
+from jwt import InvalidSignatureError, DecodeError
 from passlib.context import CryptContext
 
 from src.exceptions import UserAlreadyExists
@@ -33,7 +33,7 @@ def register_user(username: str, password: str) -> None:
 def verify_token(token: str) -> Optional[dict[str, Any]]:
     try:
         return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    except InvalidSignatureError:
+    except (InvalidSignatureError, DecodeError):
         return None
 
 

@@ -22,7 +22,6 @@ def user():
     return User(username="test_user", hashed_password="$2b$12$ICGZngNZaNfhYKx1UQfYf.UkoaXX/O673htEkJSACp4pKSE0mjxua")
 
 
-# todo parametrize these
 @patch.object(auth_repository, "get_user")
 def test_login_when_credentials_match_returns_access_token(mocked_get_user, user):
     username = "test_user"
@@ -70,6 +69,12 @@ def test_verify_token_when_token_is_not_valid_returns_none():
     token = jwt.encode(to_encode, "INVALID_SECRET_KEY", algorithm=ALGORITHM)
 
     result = verify_token(token)
+
+    assert result is None
+
+
+def test_verify_token_when_token_is_malformed_returns_none():
+    result = verify_token("abc")
 
     assert result is None
 

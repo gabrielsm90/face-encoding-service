@@ -1,5 +1,3 @@
-from typing import Dict
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
@@ -12,7 +10,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 
 @router.post("/auth/token")
-def get_access_token(form_data: OAuth2PasswordRequestForm = Depends()) -> Dict[str, str]:
+def get_access_token(form_data: OAuth2PasswordRequestForm = Depends()) -> dict[str, str]:
     access_token = login(form_data.username, form_data.password)
 
     if not access_token:
@@ -22,7 +20,7 @@ def get_access_token(form_data: OAuth2PasswordRequestForm = Depends()) -> Dict[s
 
 
 @router.post("/auth/register")
-def register_new_user(form_data: OAuth2PasswordRequestForm = Depends()) -> Dict[str, str]:
+def register_new_user(form_data: OAuth2PasswordRequestForm = Depends()) -> dict[str, str]:
     try:
         register_user(form_data.username, form_data.password)
     except UserAlreadyExists:

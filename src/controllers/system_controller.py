@@ -1,15 +1,13 @@
-from typing import Dict
-
 from fastapi import APIRouter
 
 router = APIRouter(tags=["System"])
 
 
 @router.get("/")
-def index() -> Dict[str, str]:
+def index() -> dict[str, str]:
     return {"message": "Welcome to Veriff's Face Encoding Service!"}
 
 
 @router.get("/health")
-def health() -> Dict[str, str]:
+def health() -> dict[str, str]:
     return {"status": "ok"}

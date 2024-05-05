@@ -6,9 +6,9 @@ from sqlalchemy.orm import sessionmaker
 
 database_url = (
     f"postgresql://postgres:{os.getenv("POSTGRES_ROOT_PASSWORD")}"
-    f"@{os.getenv("POSTGRES_HOST")}:"
-    f"{os.getenv("POSTGRES_PORT")}/"
-    f"{os.getenv("POSTGRES_DB_NAME")}"
+    f"@{os.getenv("POSTGRES_HOST", "localhost")}:"
+    f"{os.getenv("POSTGRES_PORT", 5432)}/"
+    f"{os.getenv("POSTGRES_DB_NAME", "face-encoding")}"
 )
 
 engine = create_engine(database_url)
