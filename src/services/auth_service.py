@@ -1,3 +1,5 @@
+import os
+
 import jwt
 
 from datetime import timedelta, datetime
@@ -11,7 +13,6 @@ from src.repositories.auth_repository import AuthRepository
 from src.schemas.user import UserCreate
 
 
-SECRET_KEY = "df2238d01c123175ec4505fed9bf2dfa4d5ca7ffab3cb2a803dcdbe2eecf0028"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 ALGORITHM = "HS256"
 
@@ -32,7 +33,7 @@ def register_user(username: str, password: str) -> None:
 
 def verify_token(token: str) -> Optional[dict[str, Any]]:
     try:
-        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return jwt.decode(token, _get_secret_key(), algorithms=[ALGORITHM])
     except (InvalidSignatureError, DecodeError):
         return None
 
@@ -58,5 +59,9 @@ def _create_access_token(data: dict[str, Any]) -> str:
     to_encode = data.copy()
     expire = datetime.now() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, _get_secret_key(), algorithm=ALGORITHM)
     return encoded_jwt
+
+
+def _get_secret_key():
+    return os.getenv("JWT_ENCODING_SECRET_KEY")
