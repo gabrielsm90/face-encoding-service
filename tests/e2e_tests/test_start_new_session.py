@@ -8,7 +8,7 @@ import requests
 
 @pytest.fixture(scope="module")
 def base_url():
-    return "http://localhost:8000"
+    return "http://localhost:8001"
 
 
 @pytest.fixture
@@ -42,7 +42,7 @@ def test_session_journey_happy_path(base_url, user_credentials):
 
     # Step 4: Upload image to session
     file_name = "img1.jpg"
-    fixtures_dir = path.join(path.dirname(path.abspath(__file__)), "fixtures")
+    fixtures_dir = path.join(path.dirname(path.abspath(__file__)), "../fixtures")
     file_path = path.join(fixtures_dir, file_name)
     session_id = session_data["id"]
     with open(file_path, "rb") as file:

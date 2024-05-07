@@ -63,5 +63,5 @@ def _create_access_token(data: dict[str, Any]) -> str:
     return encoded_jwt
 
 
-def _get_secret_key():
+def _get_secret_key() -> Optional[str]:
     return os.getenv("JWT_ENCODING_SECRET_KEY")

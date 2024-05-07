@@ -23,18 +23,28 @@ services:
     networks:
       - backend
 
+  veriff_face_encoding:
+    image: veriffdocker/face-encoding-test-task:latest
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+
   face-encoding-backend:
     build: .
     ports:
-      - "8000:8000"
+      - "8001:8001"
     depends_on:
       - production_db
+      - integration_tests_db
+      - veriff_face_encoding
     environment:
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_DB_NAME: ${POSTGRES_DB_NAME}
       POSTGRES_ROOT_PASSWORD: ${POSTGRES_ROOT_PASSWORD}
       POSTGRES_PORT: ${POSTGRES_PORT}
       JWT_ENCODING_SECRET_KEY: ${JWT_ENCODING_SECRET_KEY}
+      FACE_ENCODING_SERVICE_HOST: ${FACE_ENCODING_SERVICE_HOST}
     networks:
       - backend
 

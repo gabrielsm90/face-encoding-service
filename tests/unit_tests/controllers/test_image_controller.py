@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from src.exceptions import SessionDoesntExistException
+from src.exceptions import SessionDoesntExistException, MaxNumberOfImagesException
 from src.schemas.image import Image
 
 
@@ -28,7 +28,7 @@ def test_image_upload_endpoint_when_credentials_are_valid_returns_200_status_cod
     assert created_session.session_id == session_id
 
 
-def test_start_session_without_token_returns_unauthorized_status_code(client):
+def test_image_upload_endpoint_without_token_returns_unauthorized_status_code(client):
     session_id = 123
     file_name = "test_image.jpg"
     image_file = (file_name, b"dummy_image_content")
@@ -38,7 +38,7 @@ def test_start_session_without_token_returns_unauthorized_status_code(client):
     assert response.status_code == 401
 
 
-def test_start_session_with_invalid_token_returns_unauthorized_status_code(client):
+def test_image_upload_endpoint_with_invalid_token_returns_unauthorized_status_code(client):
     session_id = 123
     file_name = "test_image.jpg"
     image_file = (file_name, b"dummy_image_content")
@@ -52,7 +52,7 @@ def test_start_session_with_invalid_token_returns_unauthorized_status_code(clien
 
 @patch("src.controllers.image_controller.create_image", side_effect=SessionDoesntExistException())
 @patch("src.controllers.image_controller.verify_token", return_value=True)
-def test_start_session_with_invalid_session_id_returns_bad_request_status_code(_, __, client):
+def test_image_upload_endpoint_with_nonexistent_session_returns_not_found_status_code(_, __, client):
     session_id = 123
     file_name = "test_image.jpg"
     image_file = (file_name, b"dummy_image_content")
@@ -62,3 +62,18 @@ def test_start_session_with_invalid_session_id_returns_bad_request_status_code(_
     )
 
     assert response.status_code == 404
+
+
+@patch("src.controllers.image_controller.create_image", side_effect=MaxNumberOfImagesException())
+@patch("src.controllers.image_controller.verify_token", return_value=True)
+def test_image_upload_endpoint_with_full_session_returns_bad_request_status_code(_, __, client):
+    session_id = 123
+    file_name = "test_image.jpg"
+    image_file = (file_name, b"dummy_image_content")
+
+    response = client.post(
+        f"sessions/{session_id}/images", files={"file": image_file}, headers={"Authorization": "Bearer invalid"}
+    )
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Session reached max number of images."
