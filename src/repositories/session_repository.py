@@ -14,3 +14,6 @@ class SessionRepository:
         self.db.commit()
         self.db.refresh(db_session)
         return db_session
+
+    def get_session_by_id(self, session_id: int) -> Session:
+        return self.db.query(Session).filter(Session.id == session_id).first()

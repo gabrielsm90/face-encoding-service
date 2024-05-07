@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
-from src.exceptions import UserAlreadyExists
+from src.exceptions import UserAlreadyExistsException
 from src.services.auth_service import login, register_user
 
 router = APIRouter(tags=["Authentication"])
@@ -23,7 +23,7 @@ def get_access_token(form_data: OAuth2PasswordRequestForm = Depends()) -> dict[s
 def register_new_user(form_data: OAuth2PasswordRequestForm = Depends()) -> dict[str, str]:
     try:
         register_user(form_data.username, form_data.password)
-    except UserAlreadyExists:
+    except UserAlreadyExistsException:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists")
 
     return {"message": "User registered successfully"}

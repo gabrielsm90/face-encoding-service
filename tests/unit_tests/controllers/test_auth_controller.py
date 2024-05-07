@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from src.exceptions import UserAlreadyExists
+from src.exceptions import UserAlreadyExistsException
 
 
 @patch("src.controllers.auth_controller.login", return_value="access-token")
@@ -40,7 +40,7 @@ def test_auth_register_endpoint_when_user_name_is_valid_returns_200_status_code_
     assert response_content.get("message") == "User registered successfully"
 
 
-@patch("src.controllers.auth_controller.register_user", side_effect=UserAlreadyExists)
+@patch("src.controllers.auth_controller.register_user", side_effect=UserAlreadyExistsException)
 def test_auth_register_endpoint_when_user_name_already_exists_returns_400_with_error_message(_, client):
     username = "existing_user"
     password = "my_password"

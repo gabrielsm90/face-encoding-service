@@ -4,7 +4,7 @@ from unittest.mock import patch
 import jwt
 import pytest
 
-from src.exceptions import UserAlreadyExists
+from src.exceptions import UserAlreadyExistsException
 from src.models.user import User
 from src.schemas.user import UserCreate
 from src.services.auth_service import (
@@ -96,5 +96,5 @@ def test_register_user_when_new_username_adds_new_user(mock_hash, mock_create_us
 
 @patch.object(auth_repository, "get_user")
 def test_register_user_when_user_exists_throws_exception(_):
-    with pytest.raises(UserAlreadyExists):
+    with pytest.raises(UserAlreadyExistsException):
         register_user("existing_user_name", "new_password")

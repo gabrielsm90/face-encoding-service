@@ -21,5 +21,4 @@ def test_create_new_session(test_db):
 
     assert created_session is not None
     assert created_session.status == SessionStatus.STARTED
-    assert created_session.uploaded_images == 0
     assert created_session.id > 0

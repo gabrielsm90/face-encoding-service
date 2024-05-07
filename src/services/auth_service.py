@@ -8,7 +8,7 @@ from typing import Optional, Any
 from jwt import InvalidSignatureError, DecodeError
 from passlib.context import CryptContext
 
-from src.exceptions import UserAlreadyExists
+from src.exceptions import UserAlreadyExistsException
 from src.repositories.auth_repository import AuthRepository
 from src.schemas.user import UserCreate
 
@@ -25,7 +25,7 @@ auth_repository = AuthRepository()
 def register_user(username: str, password: str) -> None:
     user = auth_repository.get_user(username)
     if user is not None:
-        raise UserAlreadyExists()
+        raise UserAlreadyExistsException()
     hashed_password = pwd_context.hash(password)
     user = UserCreate(username=username, password=hashed_password)
     auth_repository.create_user(user)

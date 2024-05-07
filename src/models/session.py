@@ -9,6 +9,8 @@ class Session(Base):
 
     id = Column(Integer, primary_key=True)
     status = Column(String, default="STARTED")
-    uploaded_images = Column(Integer, default=0)
 
     images = relationship("Image", back_populates="session")
+
+    def reached_max_number_of_images(self) -> bool:
+        return len(self.images) == 5
