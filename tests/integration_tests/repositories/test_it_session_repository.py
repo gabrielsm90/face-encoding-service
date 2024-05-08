@@ -22,3 +22,12 @@ def test_create_new_session(test_db):
     assert created_session is not None
     assert created_session.status == SessionStatus.STARTED
     assert created_session.id > 0
+
+
+def test_get_session_summary(test_db):
+    repo = SessionRepository()
+
+    created_session = repo.create_session()
+    fetched_session = repo.get_session_by_id(created_session.id)
+
+    assert created_session == fetched_session

@@ -21,6 +21,6 @@ def test_create_new_image(test_db):
     image_repo = ImageRepository()
 
     created_session = session_repo.create_session()
-    created_image = image_repo.create_image(created_session.id, file_name)
+    created_image = image_repo.create_image(created_session.id, file_name, [[1], [2]])
 
     assert created_image is not None

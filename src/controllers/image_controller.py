@@ -16,15 +16,8 @@ async def upload_image(session_id: int, file: UploadFile = File(...), token: str
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect credentials")
 
     try:
-        image = create_image(session_id, file.filename)
-
-        # file_content = await file.read()
-        # import requests
-        # response = requests.post(
-        #     "http://localhost:8000/v1/selfie",
-        #     files={"file": file_content},
-        # )
-
+        file_content = await file.read()
+        image = create_image(session_id, file.filename, file_content)
         return image
     except SessionDoesntExistException:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Session not found")

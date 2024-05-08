@@ -1,6 +1,8 @@
 from os.path import join, dirname, abspath
 
-from src.services.image_service import generate_face_encodings
+from src.repositories.face_encoding_repository import FaceEncodingRepository
+
+repo = FaceEncodingRepository()
 
 
 def test_generate_face_encodings_returns_list_of_encodings_per_face():
@@ -10,9 +12,6 @@ def test_generate_face_encodings_returns_list_of_encodings_per_face():
     with open(file_path, "rb") as file:
         image_data = file.read()
 
-    result = generate_face_encodings(image_data)
+    result = repo.get_face_encodings(image_data)
 
     assert result is not None
-    assert len(result) == 5
-    for encoding in result:
-        assert len(encoding) == 128

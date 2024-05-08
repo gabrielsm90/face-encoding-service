@@ -58,3 +58,14 @@ def test_session_journey_happy_path(base_url, user_credentials):
     assert "file_name" in image_data
     assert "id" in image_data
     assert image_data["file_name"] == "img1.jpg"
+
+    # Step 5 Get Summary
+    summary_response = requests.get(
+        f"{base_url}/sessions/{session_id}",
+        headers={"Authorization": f"Bearer {access_token}"},
+    )
+    summary_content = summary_response.json()
+    assert summary_response.status_code == 200
+    assert summary_content["images_uploaded"] == 1
+    assert summary_content["images"][0]["file_name"] == "img1.jpg"
+    assert len(summary_content["images"][0]["face_encodings"]) == 5

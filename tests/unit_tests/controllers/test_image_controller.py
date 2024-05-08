@@ -13,19 +13,22 @@ def test_image_upload_endpoint_when_credentials_are_valid_returns_200_status_cod
     session_id = 123
     file_name = "test_image.jpg"
     image_file = (file_name, b"dummy_image_content")
-    mock_create_image.return_value = Image(id=image_id, session_id=session_id, file_name=file_name)
+    mock_create_image.return_value = Image(
+        id=image_id, session_id=session_id, file_name=file_name, face_encodings=[[1], [2]]
+    )
 
     response = client.post(
         f"sessions/{session_id}/images", files={"file": image_file}, headers={"Authorization": "Bearer token"}
     )
     response_content = response.json()
 
-    created_session = Image(**response_content)
+    created_image = Image(**response_content)
 
     assert response.status_code == 200
-    assert created_session.file_name == file_name
-    assert created_session.id == image_id
-    assert created_session.session_id == session_id
+    assert created_image.file_name == file_name
+    assert created_image.id == image_id
+    assert created_image.session_id == session_id
+    assert created_image.face_encodings == [[1], [2]]
 
 
 def test_image_upload_endpoint_without_token_returns_unauthorized_status_code(client):
