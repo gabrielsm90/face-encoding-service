@@ -37,8 +37,6 @@ def test_session_journey_happy_path(base_url, user_credentials):
     assert session_response.status_code == 200
     session_data = session_response.json()
     assert "id" in session_data
-    assert "status" in session_data
-    assert session_data["status"] == "STARTED"
 
     # Step 4: Upload image to session
     file_name = "img1.jpg"

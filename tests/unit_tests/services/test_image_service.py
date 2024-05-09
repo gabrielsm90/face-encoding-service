@@ -6,7 +6,6 @@ import pytest
 from src.exceptions import MaxNumberOfImagesException, SessionDoesntExistException
 from src.models.image import Image
 from src.models.session import Session
-from src.schemas.session import SessionStatus
 from src.services.image_service import create_image
 from src.repositories.image_repository import ImageRepository
 from src.repositories.session_repository import SessionRepository
@@ -20,7 +19,7 @@ def test_create_image_returns_new_image_with_correct_initial_data(mocked_repo_cr
     file_name = "file_name.png"
     db_session = Image(session_id=123, file_name=file_name, id=randint(1, 1000))
     mocked_repo_create_image.return_value = db_session
-    mocked_repo_get_session.return_value = Session(id=123, status=SessionStatus.STARTED)
+    mocked_repo_get_session.return_value = Session(id=123)
 
     result = create_image(123, file_name, b"file content")
 
@@ -40,7 +39,6 @@ def test_create_image_when_session_has_the_limit_of_images_throws_exception(
     mocked_repo_create_image.return_value = db_session
     mocked_repo_get_session.return_value = Session(
         id=123,
-        status=SessionStatus.STARTED,
         images=[
             Image(session_id=123, file_name=file_name, id=randint(1, 10000)),
             Image(session_id=123, file_name=file_name, id=randint(1, 10000)),

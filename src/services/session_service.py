@@ -10,7 +10,6 @@ def create_session() -> Session:
 
     return Session(
         id=created_session_db.id,
-        status=created_session_db.status,
         images=created_session_db.images,
         images_uploaded=len(created_session_db.images),
     )
@@ -26,4 +25,4 @@ def get_session(session_id: int) -> Session:
         for image_db in session_db.images
     ]
 
-    return Session(id=session_db.id, status=session_db.status, images=images, images_uploaded=len(session_db.images))
+    return Session(id=session_db.id, images=images, images_uploaded=len(session_db.images))
